@@ -1,14 +1,34 @@
+import { useForm } from "../hooks/useForm"
+
 export const Register = () => {
 
-
+    const { handleChange, handleSubmit, pass, email } = useForm({
+        initialState: {
+            email: 'test@test2.com',
+            pass: '123456'
+        },
+        typeForm: 'sign-up'
+    })
 
     return (
         <div className="container-auth">
             <h2>Create an account</h2>
 
-            <form>
-                <input type="text" placeholder="Username" />
-                <input type="password" placeholder="Password" />
+            <form onSubmit={handleSubmit}>
+                <input
+                    name="email"
+                    type="email"
+                    placeholder="E-mail"
+                    onChange={handleChange}
+                    value={email}
+                />
+                <input
+                    name="pass"
+                    type="password"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    value={pass}
+                />
                 <div className="container-buttons">
                     <button type="submit">Sign up</button>
                 </div>
