@@ -1,26 +1,16 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 type eventInput = React.ChangeEvent<HTMLInputElement>;
-type eventForm = React.FormEvent<HTMLFormElement>;
-type Form = 'log-in' | 'sign-up'
 
 interface Props<T> {
     initialState: T
-    typeForm: Form
 }
 
-export const useForm = <T>({ initialState, typeForm }: Props<T>) => {
-    const [form, setForm] = useState(initialState)
+export const useForm = <T>({ initialState }: Props<T>) => {
 
-    const handleSubmit = (e: eventForm) => {
-        e.preventDefault();
-        if (typeForm === 'log-in') {
+    const [form, setForm] = useState<T>(initialState)
 
-            return
-        }
-
-        console.log('register')
-    }
 
 
     const handleChange = (e: eventInput) => {
@@ -33,7 +23,6 @@ export const useForm = <T>({ initialState, typeForm }: Props<T>) => {
     return {
         ...form,
         form,
-        handleChange,
-        handleSubmit
+        handleChange
     }
 }
