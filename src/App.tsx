@@ -2,7 +2,6 @@ import { useContext } from "react"
 import { Login, Register } from "./components"
 import { AuthContext } from './context/authContext';
 
-
 const App = () => {
 
   const { status, userId } = useContext(AuthContext)

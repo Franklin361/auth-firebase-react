@@ -17,46 +17,45 @@ const initialState: Pick<AuthStateContext, 'status' | 'userId'> = {
 
 export const AuthContext = createContext({} as AuthStateContext)
 
-export const AuthProvider = ({
-    children
-}: {
-    children: JSX.Element | JSX.Element[]
-}) => {
+interface IElement { children: JSX.Element | JSX.Element[] }
+
+export const AuthProvider = ({ children }: IElement) => {
 
     const [session, setSession] = useState(initialState)
-
 
     useEffect(() => {
         onAuthStateHasChanged(setSession)
     }, [])
 
-    const handleLoginWithGoogle = async () => {
-        setSession(prev => ({ ...prev, status: 'checking' }))
-        const userId = await singInWithGoogle()
-        setAuth(userId)
-    }
-
-    const handleLoginWithCredentials = async (password: string, email: string) => {
-        setSession(prev => ({ ...prev, status: 'checking' }))
-        const userId = await loginWithCredentials({ email, password })
-        setAuth(userId)
-    }
-
-    const handleRegisterWithCredentials = async (password: string, email: string) => {
-        setSession(prev => ({ ...prev, status: 'checking' }))
-        const userId = await signInWithCredentials({ email, password })
-        setAuth(userId)
-    }
-
-
-    const setAuth = (userId: string | undefined) => {
-        if (userId) return setSession({ userId, status: 'authenticated' })
-        handleLogOut()
-    }
 
     const handleLogOut = async () => {
         logoutFirebase()
         setSession({ userId: null, status: 'no-authenticated' })
+    }
+
+    const validateAuth = (userId: string | undefined) => {
+        if (userId) return setSession({ userId, status: 'authenticated' })
+        handleLogOut()
+    }
+
+    const checking = () => setSession(prev => ({ ...prev, status: 'checking' }))
+
+    const handleLoginWithGoogle = async () => {
+        checking()
+        const userId = await singInWithGoogle()
+        validateAuth(userId)
+    }
+
+    const handleLoginWithCredentials = async (password: string, email: string) => {
+        checking()
+        const userId = await loginWithCredentials({ email, password })
+        validateAuth(userId)
+    }
+
+    const handleRegisterWithCredentials = async (password: string, email: string) => {
+        checking()
+        const userId = await signInWithCredentials({ email, password })
+        validateAuth(userId)
     }
 
     return (

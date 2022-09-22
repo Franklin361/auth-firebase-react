@@ -1,5 +1,4 @@
-import { useState, useContext } from 'react';
-import { AuthContext } from '../context/authContext';
+import { useState } from 'react';
 
 type eventInput = React.ChangeEvent<HTMLInputElement>;
 
