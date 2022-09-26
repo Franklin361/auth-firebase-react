@@ -10,9 +10,9 @@ This time, we are going to implement authentication using React JS and Firebase!
 ## **Features ⚙️**
 
 1. Log in.
-1. Log in with Google.
-2. Sign in 
-3. Log out.
+2. Log in with Google.
+3. Sign in 
+4. Log out.
 
 &nbsp;
 
